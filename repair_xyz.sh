@@ -6,7 +6,8 @@
 # /_/\_\  |_| /____|
 # #xyz-rainbowtechnology
 
-REPO_DIR="/home/cloud-xyz/Documentos/NEXUS/apps/github/xyz-scrcpy"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$SCRIPT_DIR"
 TEST_SCRIPT="$REPO_DIR/bin/test_syntax.py"
 
 echo "╔════════════════════════════════════════════════════════════╗"
@@ -14,8 +15,8 @@ echo "║          XYZ / RAINBOWTECHNOLOGY - REPAIR SYSTEM           ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 
 echo "[1/3] Limpiando procesos y bloqueos..."
-pkill -f "menu.py"
-pkill -f "monitor.sh"
+pkill -f "$REPO_DIR/bin/menu.py" >/dev/null 2>&1 || true
+pkill -f "$REPO_DIR/bin/monitor.sh" >/dev/null 2>&1 || true
 rm -f /tmp/xyz_menu.lock
 rm -f /tmp/xyz_monitor.pid
 sleep 1

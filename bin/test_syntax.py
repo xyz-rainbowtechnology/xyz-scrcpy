@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 import py_compile
 import sys
-import os
+from pathlib import Path
 
-# Ruta dinámica del repositorio final
-REPO_DIR = "/home/cloud-xyz/Documentos/NEXUS/apps/github/xyz-scrcpy"
-menu_script = os.path.join(REPO_DIR, "bin/menu.py")
+REPO_DIR = Path(__file__).resolve().parent.parent
+menu_script = REPO_DIR / "bin" / "menu.py"
 
 print(f"Verificando integridad de: {menu_script}")
 
 try:
-    if not os.path.exists(menu_script):
+    if not menu_script.exists():
         print(f"FAIL: Archivo no encontrado en {menu_script}")
         sys.exit(1)
         
-    py_compile.compile(menu_script, doraise=True)
+    py_compile.compile(str(menu_script), doraise=True)
     print("✓ OK: Sintaxis perfecta de XYZ / Rainbowtechnology")
     sys.exit(0)
 except Exception as e:

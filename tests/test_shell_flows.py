@@ -33,11 +33,16 @@ class ShellFlowTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0)
         self.assertIn("FAIL_OPEN", proc.stdout)
 
+    def test_check_and_repair_pass_after_repair_mode(self):
+        proc = self.run_script(CHECK_SCRIPT, {"XYZ_TEST_MODE": "1", "XYZ_TEST_SCENARIO": "repair-pass"})
+        self.assertEqual(proc.returncode, 0)
+        self.assertIn("PASS_AFTER_REPAIR", proc.stdout)
+
     def test_launch_with_checks_can_cancel_on_error(self):
         proc = self.run_script(
             LAUNCH_SCRIPT,
             {"XYZ_TEST_MODE": "1", "XYZ_TEST_SCENARIO": "fail", "XYZ_SKIP_MENU_EXEC": "1"},
-            input_text="n\n",
+            input_text="n\nn\n",
         )
         self.assertNotEqual(proc.returncode, 0)
         combined = (proc.stdout or "") + (proc.stderr or "")
@@ -47,7 +52,7 @@ class ShellFlowTests(unittest.TestCase):
         proc = self.run_script(
             LAUNCH_SCRIPT,
             {"XYZ_TEST_MODE": "1", "XYZ_TEST_SCENARIO": "fail", "XYZ_SKIP_MENU_EXEC": "1"},
-            input_text="y\n",
+            input_text="n\ny\n",
         )
         self.assertEqual(proc.returncode, 0)
         self.assertIn("Test mode: menu execution skipped.", proc.stdout)

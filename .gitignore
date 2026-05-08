@@ -6,6 +6,7 @@ __pycache__/
 
 # Local runtime logs
 config/check.log
+config/config.json
 *.log
 
 # OS/editor artifacts
